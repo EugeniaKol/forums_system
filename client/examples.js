@@ -12,7 +12,7 @@ const printForums(res) => {
         console.log('Forum name: ', f.name);
         console.log('Topic keyword: ', f.topicKeyword);
         console.log('Users: ', f.users.join(', '));
-        console.lof('_______________________');
+        console.log('_______________________');
     });
 }
 
@@ -35,6 +35,6 @@ client.addUser(newNick, newInters)
     //forums now have modified 'users' field
         return client.showForums()
             .then((list) => printForums(list);
-    })
+    )
     .catch((e) => console.log(e);
     );
