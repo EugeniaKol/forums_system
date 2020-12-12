@@ -1,14 +1,11 @@
 {
-  "name": "chat",
+  "name": "forums",
   "version": "1.0.0",
-  "description": "",
+  "description": "package for communicating with forums api server",
   "main": "examples.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "request": "^2.88.0"
-  }
+  "license": "ISC"
 }

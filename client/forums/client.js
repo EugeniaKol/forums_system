@@ -5,8 +5,8 @@ const Client = (baseUrl) => {
     const client = http.Client(baseUrl);
 
     return {
-        listChannels: () => client.get('/channels'),
-        createChannel: (name) => client.post('/channels', { name })
+        showForums: () => client.get('/forums'),
+        addUser: (nickName, interests) => client.post('/users', { nickName, interests })
     }
 
 };

@@ -2,31 +2,39 @@
 // the SDK for channels management.
 
 const channels = require('./channels/client');
+let myUrl = 'http://localhost:8080';
 
-const client = channels.Client('http://localhost:8080');
+const client = channels.Client(myUrl);
 
-// Scenario 1: Display available channels.
-client.listChannels()
-    .then((list) => {
-        console.log('=== Scenario 1 ===');
-        console.log('Available channels:');
-        list.forEach((c) => console.log(c.name));
-    })
-    .catch((e) => {
-        console.log(`Problem listing available channels: ${e.message}`);
+const printForums(res) => {
+    console.log('Displaying forums:');
+    res.forEach((f) => {
+        console.log('Forum name: ', f.name);
+        console.log('Topic keyword: ', f.topicKeyword);
+        console.log('Users: ', f.users.join(', '));
+        console.lof('_______________________');
     });
+}
 
-// Scenario 2: Create new channel.
-client.createChannel('my-new-channel')
+// Scenario 1: Show existing forums.
+client.showForums()
+    .then((list) => printForums(list);
+    )
+    .catch((e) => console.log(e);
+    );
+
+// Scenario 2: Create new user.
+let newNick = 'zhenshen';
+const newInters = ['marvel movies', 'rock music'];
+
+client.addUser(newNick, newInters)
     .then((resp) => {
-        console.log('=== Scenario 2 ===');
-        console.log('Create channel response:', resp);
-        return client.listChannels()
-            .then((list) => list.map((c) => c.name).join(', '))
-            .then((str) => {
-                console.log(`Current channels: ${str}`);
-            })
+        console.log('Adding user:', );
+        console.log('Adding channel response:', resp);
+
+    //forums now have modified 'users' field
+        return client.showForums()
+            .then((list) => printForums(list);
     })
-    .catch((e) => {
-        console.log(`Problem creating a new channel: ${e.message}`);
-    });
+    .catch((e) => console.log(e);
+    );
