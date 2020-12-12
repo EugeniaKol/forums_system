@@ -6,7 +6,7 @@ let myUrl = 'http://localhost:8080';
 
 const client = channels.Client(myUrl);
 
-const printForums(res) => {
+const printForums = res => {
     console.log('Displaying forums:');
     res.forEach((f) => {
         console.log('Forum name: ', f.name);
