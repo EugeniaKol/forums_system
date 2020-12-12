@@ -34,7 +34,6 @@ client.addUser(newNick, newInters)
 
     //forums now have modified 'users' field
         return client.showForums()
-            .then((list) => printForums(list);
-    )
+            .then((list) => printForums(list))
     .catch((e) => console.log(e);
     );
