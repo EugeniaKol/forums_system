@@ -10,22 +10,22 @@ type errorObject struct {
 	Message string `json:"message"`
 }
 
-// WriteJsonOk sends 400 error response with a JSON object describing the error reason.
-func WriteJsonBadRequest(rw http.ResponseWriter, message string) {
-	writeJson(rw, http.StatusBadRequest, &errorObject{Message: message})
+//WriteJSONBadRequest sends 400 error response with a JSON object describing the error reason.
+func WriteJSONBadRequest(rw http.ResponseWriter, message string) {
+	writeJSON(rw, http.StatusBadRequest, &errorObject{Message: message})
 }
 
-// WriteJsonOk sends 500 error response.
-func WriteJsonInternalError(rw http.ResponseWriter) {
-	writeJson(rw, http.StatusBadRequest, &errorObject{Message: "internal error happened"})
+//WriteJSONInternalError sends 500 error response.
+func WriteJSONInternalError(rw http.ResponseWriter) {
+	writeJSON(rw, http.StatusBadRequest, &errorObject{Message: "internal error happened"})
 }
 
-// WriteJsonOk sends 200 response to the client serializing the input object in JSON format.
-func WriteJsonOk(rw http.ResponseWriter, res interface{}) {
-	writeJson(rw, http.StatusOK, res)
+//WriteJSONOk sends 200 response to the client serializing the input object in JSON format.
+func WriteJSONOk(rw http.ResponseWriter, res interface{}) {
+	writeJSON(rw, http.StatusOK, res)
 }
 
-func writeJson(rw http.ResponseWriter, status int, res interface{}) {
+func writeJSON(rw http.ResponseWriter, status int, res interface{}) {
 	rw.Header().Set("content-type", "application/json")
 	rw.WriteHeader(status)
 	err := json.NewEncoder(rw).Encode(res)

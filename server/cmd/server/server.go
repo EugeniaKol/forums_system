@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	channels "github.com/roman-mazur/chat-channels-example/server/channels"
+	forums "github.com/EugeniaKol/forums_system/server/forums"
 )
 
 //HTTPPortNumber alias for int
@@ -13,9 +13,9 @@ type HTTPPortNumber int
 
 //ForumAPIServer configures necessary handlers and starts listening on a configured port.
 type ForumAPIServer struct {
-	Port HTTPortNumber
+	Port HTTPPortNumber
 
-	ChannelsHandler channels.HTTPHandlerFunc
+	ForumsHandler forums.HTTPHandlerFunc
 
 	server *http.Server
 }
@@ -24,7 +24,7 @@ type ForumAPIServer struct {
 // If this methods succeeds, it does not return until server is shut down.
 // Returned error will never be nil.
 func (s *ForumAPIServer) Start() error {
-	if s.ChannelsHandler == nil {
+	if s.ForumsHandler == nil {
 		return fmt.Errorf("channel's HTTP handler is not defined - cannot start")
 	}
 	if s.Port == 0 {
@@ -32,7 +32,7 @@ func (s *ForumAPIServer) Start() error {
 	}
 
 	handler := new(http.ServeMux)
-	handler.HandleFunc("/channels", s.ChannelsHandler)
+	handler.HandleFunc("/channels", s.ForumsHandler)
 
 	s.server = &http.Server{
 		Addr:    fmt.Sprintf(":%d", s.Port),
@@ -45,7 +45,7 @@ func (s *ForumAPIServer) Start() error {
 // Stop will shut down previously started HTTP server.
 func (s *ForumAPIServer) Stop() error {
 	if s.server == nil {
-		return fmt.Errorf("server was not started")
+		return fmt.Errorf("Server was not started")
 	}
 	return s.server.Shutdown(context.Background())
 }

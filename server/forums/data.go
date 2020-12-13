@@ -1,4 +1,4 @@
-package channels
+package forums
 
 import (
 	"database/sql"

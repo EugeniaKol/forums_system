@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/roman-mazur/chat-channels-example/server/db"
+	"github.com/EugeniaKol/forums_system/server/db"
 )
 
 var httpPortNumber = flag.Int("p", 8080, "HTTP port number")
@@ -29,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	// Create the server.
-	if server, err := ComposeApiServer(HTTPPortNumber(*httpPortNumber)); err == nil {
+	if server, err := ComposeAPIServer(HTTPPortNumber(*httpPortNumber)); err == nil {
 		// Start it.
 		go func() {
 			log.Println("Starting chat server...")

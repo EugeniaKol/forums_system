@@ -1,11 +1,11 @@
-package channels
+package forums
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
-	"github.com/roman-mazur/chat-channels-example/server/tools"
+	"github.com/EugeniaKol/forums_system/server/tools"
 )
 
 // HTTPHandlerFunc create a var of its type
@@ -28,15 +28,15 @@ func handleUserCreate(r *http.Request, rw http.ResponseWriter, store *Store) {
 	var u User
 	if err := json.NewDecoder(r.Body).Decode(&u); err != nil {
 		log.Printf("Error decoding channel input: %s", err)
-		tools.WriteJsonBadRequest(rw, "bad JSON payload")
+		tools.WriteJSONBadRequest(rw, "bad JSON payload")
 		return
 	}
 	err := store.CreateUser(u.Nickname, u.Interests)
 	if err == nil {
-		tools.WriteJsonOk(rw, &u)
+		tools.WriteJSONOk(rw, &u)
 	} else {
 		log.Printf("Error inserting record: %s", err)
-		tools.WriteJsonInternalError(rw)
+		tools.WriteJSONInternalError(rw)
 	}
 }
 
@@ -44,8 +44,8 @@ func handleListForums(store *Store, rw http.ResponseWriter) {
 	res, err := store.ListForums()
 	if err != nil {
 		log.Printf("Error making query to the db: %s", err)
-		tools.WriteJsonInternalError(rw)
+		tools.WriteJSONInternalError(rw)
 		return
 	}
-	tools.WriteJsonOk(rw, res)
+	tools.WriteJSONOk(rw, res)
 }
