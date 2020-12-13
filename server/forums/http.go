@@ -2,45 +2,46 @@ package channels
 
 import (
 	"encoding/json"
-	"github.com/roman-mazur/chat-channels-example/server/tools"
 	"log"
 	"net/http"
+
+	"github.com/roman-mazur/chat-channels-example/server/tools"
 )
 
-// Channels HTTP handler.
-type HttpHandlerFunc http.HandlerFunc
+// HTTPHandlerFunc create a var of its type
+type HTTPHandlerFunc http.HandlerFunc
 
-// HttpHandler creates a new instance of channels HTTP handler.
-func HttpHandler(store *Store) HttpHandlerFunc {
+// HTTPHandler creates a new instance of channels HTTP handler.
+func HTTPHandler(store *Store) HTTPHandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
-			handleListChannels(store, rw)
+			handleListForums(store, rw)
 		} else if r.Method == "POST" {
-			handleChannelCreate(r, rw, store)
+			handleUserCreate(r, rw, store)
 		} else {
 			rw.WriteHeader(http.StatusMethodNotAllowed)
 		}
 	}
 }
 
-func handleChannelCreate(r *http.Request, rw http.ResponseWriter, store *Store) {
-	var c Channel
-	if err := json.NewDecoder(r.Body).Decode(&c); err != nil {
+func handleUserCreate(r *http.Request, rw http.ResponseWriter, store *Store) {
+	var u User
+	if err := json.NewDecoder(r.Body).Decode(&u); err != nil {
 		log.Printf("Error decoding channel input: %s", err)
 		tools.WriteJsonBadRequest(rw, "bad JSON payload")
 		return
 	}
-	err := store.CreateChannel(c.Name)
+	err := store.CreateUser(u.Nickname, u.Interests)
 	if err == nil {
-		tools.WriteJsonOk(rw, &c)
+		tools.WriteJsonOk(rw, &u)
 	} else {
 		log.Printf("Error inserting record: %s", err)
 		tools.WriteJsonInternalError(rw)
 	}
 }
 
-func handleListChannels(store *Store, rw http.ResponseWriter) {
-	res, err := store.ListChannels()
+func handleListForums(store *Store, rw http.ResponseWriter) {
+	res, err := store.ListForums()
 	if err != nil {
 		log.Printf("Error making query to the db: %s", err)
 		tools.WriteJsonInternalError(rw)

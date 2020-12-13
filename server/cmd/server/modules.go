@@ -8,7 +8,7 @@ import (
 )
 
 // ComposeApiServer will create an instance of CharApiServer according to providers defined in this file.
-func ComposeApiServer(port HttpPortNumber) (*ChatApiServer, error) {
+func ComposeApiServer(port HTTPPortNumber) (*ForumApiServer, error) {
 	wire.Build(
 		// DB connection provider (defined in main.go).
 		NewDbConnection,

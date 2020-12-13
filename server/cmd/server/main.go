@@ -3,15 +3,17 @@ package main
 import (
 	"database/sql"
 	"flag"
-	"github.com/roman-mazur/chat-channels-example/server/db"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+
+	"github.com/roman-mazur/chat-channels-example/server/db"
 )
 
 var httpPortNumber = flag.Int("p", 8080, "HTTP port number")
 
+//NewDbConnection creates connection to db
 func NewDbConnection() (*sql.DB, error) {
 	conn := &db.Connection{
 		DbName:     "chat-example",
@@ -27,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	// Create the server.
-	if server, err := ComposeApiServer(HttpPortNumber(*httpPortNumber)); err == nil {
+	if server, err := ComposeApiServer(HTTPPortNumber(*httpPortNumber)); err == nil {
 		// Start it.
 		go func() {
 			log.Println("Starting chat server...")
