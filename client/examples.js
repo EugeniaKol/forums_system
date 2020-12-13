@@ -1,10 +1,10 @@
 // This file contains examples of scenarios implementation using
 // the SDK for channels management.
 
-const channels = require('./forums/client');
+const forums = require('./forums/client');
 let myUrl = 'http://localhost:8080';
 
-const client = channels.Client(myUrl);
+const client = forums.Client(myUrl);
 
 const printForums = res => {
     console.log('Displaying forums:');
