@@ -13,8 +13,11 @@ type HTTPHandlerFunc http.HandlerFunc
 
 // HTTPHandler creates a new instance of channels HTTP handler.
 func HTTPHandler(store *Store) HTTPHandlerFunc {
+	log.Printf("Hello")
 	return func(rw http.ResponseWriter, r *http.Request) {
+		log.Printf("Listening")
 		if r.Method == "GET" {
+			log.Printf("Received get request")
 			handleListForums(store, rw)
 		} else if r.Method == "POST" {
 			handleUserCreate(r, rw, store)
