@@ -4,15 +4,16 @@ const Client = (baseUrl) => {
 
     return {
         get: (url) => {
-            fetch(url)
-                .then((resp) => resp.json());
+            var res_forums = fetch(baseUrl + url).then((resp) => resp.json());
+            return res_forums
+                
         },
         post: (url, nickName, interests) => {
             let user = {
                 nickName,
                 interests
             };
-            fetch(url, {
+            var res_user = fetch(baseUrl + url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -20,6 +21,7 @@ const Client = (baseUrl) => {
                 body: JSON.stringify(user)
                 })
                 .then((resp) => resp.json);
+                return res_user
         }
     };
 };
