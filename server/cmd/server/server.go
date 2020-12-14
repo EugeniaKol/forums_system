@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-
+	"log"
 	forums "github.com/EugeniaKol/forums_system/server/forums"
 )
 
@@ -24,6 +24,7 @@ type ForumAPIServer struct {
 // If this methods succeeds, it does not return until server is shut down.
 // Returned error will never be nil.
 func (s *ForumAPIServer) Start() error {
+	log.Printf("Listening...")
 	if s.ForumsHandler == nil {
 		return fmt.Errorf("channel's HTTP handler is not defined - cannot start")
 	}
@@ -32,7 +33,7 @@ func (s *ForumAPIServer) Start() error {
 	}
 
 	handler := new(http.ServeMux)
-	handler.HandleFunc("/channels", s.ForumsHandler)
+	handler.HandleFunc("/forums", s.ForumsHandler)
 
 	s.server = &http.Server{
 		Addr:    fmt.Sprintf(":%d", s.Port),
