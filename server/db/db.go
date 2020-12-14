@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"net/url"
 
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Connection struct {
@@ -16,7 +16,7 @@ type Connection struct {
 
 func (c *Connection) ConnectionURL() string {
 	dbUrl := &url.URL{
-		Scheme: "postgres",
+		Scheme: "mysql",
 		Host:   c.Host,
 		User:   url.UserPassword(c.User, c.Password),
 		Path:   c.DbName,
@@ -30,5 +30,6 @@ func (c *Connection) ConnectionURL() string {
 }
 
 func (c *Connection) Open() (*sql.DB, error) {
-	return sql.Open("postgres", c.ConnectionURL())
+//	return sql.Open("mysql", c.ConnectionURL())
+return sql.Open("mysql", "root:password@tcp(localhost:3306)/forums_sys")
 }
