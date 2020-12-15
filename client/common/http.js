@@ -20,7 +20,7 @@ const Client = (baseUrl) => {
                 },
                 body: JSON.stringify(user)
                 })
-                .then((resp) => resp.json);
+                .then((resp) => resp.json());
                 return res_user
         }
     };
