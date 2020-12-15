@@ -6,7 +6,7 @@ const Client = (baseUrl) => {
 
     return {
         showForums: () => client.get('/forums'),
-        addUser: (nickName, interests) => client.post('/users', { nickName, interests })
+        addUser: (nickName, interests) => client.post('/forums', { nickName, interests })
     }
 
 };
