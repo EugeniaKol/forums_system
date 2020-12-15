@@ -28,7 +28,7 @@ const newInters = ['marvel movies', 'rock music'];
 client.addUser(newNick, newInters)
     .then((resp) => {
         console.log('Adding user:', newNick);
-        console.log('Adding channel response:', resp.text());
+        console.log('Adding forum response:', resp);
 
         //forums now have modified 'users' field
         return client.showForums()
