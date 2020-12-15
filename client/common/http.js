@@ -8,9 +8,9 @@ const Client = (baseUrl) => {
             return res_forums
                 
         },
-        post: (url, nickName, interests) => {
+        post: (url, nickname, interests) => {
             let user = {
-                nickName,
+                nickname,
                 interests
             };
             var res_user = fetch(baseUrl + url, {
