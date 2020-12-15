@@ -98,6 +98,7 @@ func (s *Store) CreateUser(Nickname string, Interests []string) error {
 	if len(Interests) == 0 {
 		return fmt.Errorf("User interests is not provided")
 	}
+	fmt.Println("received post request with nickname $1", Nickname)
 	/*
 	_, err := s.Db.Exec("INSERT INTO channels (nickname, interests) VALUES ($1)", Nickname, Interests)
 	return err
