@@ -2,6 +2,7 @@ package forums
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -30,6 +31,7 @@ func HTTPHandler(store *Store) HTTPHandlerFunc {
 func handleUserCreate(r *http.Request, rw http.ResponseWriter, store *Store) {
 	var u User
 	if err := json.NewDecoder(r.Body).Decode(&u); err != nil {
+		fmt.Printf("%+v\n", u)
 		log.Printf("Error decoding channel input: %s", err)
 		tools.WriteJSONBadRequest(rw, "bad JSON payload")
 		return
