@@ -32,7 +32,5 @@ func (c *Connection) ConnectionURL() string {
 
 func (c *Connection) Open() (*sql.DB, error) {
 	//	return sql.Open("mysql", c.ConnectionURL())
-	// return sql.Open("mysql", "root:password@tcp(localhost:3306)/forums_sys")
-	return sql.Open("postgres", "user=postgres password=123 dbname=postgres sslmode=disable")
-
+	 return sql.Open("mysql", "root:password@tcp(localhost:3306)/forums_sys")
 }
