@@ -23,7 +23,7 @@ client.showForums()
 
 // Scenario 2: Create new user.
 let newNick = 'zhenshen';
-const newInters = ['marvel movies', 'rock music'];
+const newInters = ['marvel-movies', 'rock-music'];
 
 client.addUser(newNick, newInters)
     .then((resp) => {
