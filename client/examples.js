@@ -22,13 +22,13 @@ client.showForums()
     .catch((e) => console.log(e));
 
 // Scenario 2: Create new user.
-let newNick = 'dashket';
-const newInters = ['rock-music'];
+let newNick = 'torass';
+const newInters = ['ukraine-politics','rock-music'];
 
 client.addUser(newNick, newInters)
     .then((resp) => {
         console.log('Adding user:', newNick);
-        console.log('Adding forum response:', resp);
+        console.log('Inserting data:', resp);
 
         //forums now have modified 'users' field
         return client.showForums()
