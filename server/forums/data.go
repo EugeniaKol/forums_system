@@ -12,6 +12,11 @@ type User struct {
 	Interests []string `json:"interests"`
 }
 
+type Interest struct {
+	Nickname   string   `json:"nickname"`
+	Forums_id  int64	`json:"forums_id"`
+}
+
 type Forum struct {
 	ID        		int64    `json:"id"`
 	Name  			string   `json:"name"`
@@ -31,48 +36,57 @@ func NewStore(db *sql.DB) *Store {
 
 // ListForums recieves forums from db and lists them
 func (s *Store) ListForums() ([]*Forum, error) {
-	rows, err := s.Db.Query("SELECT f.id, f.name, f.topicKeyword FROM forums_sys.forums f")
+	frows, err := s.Db.Query("SELECT f.id, f.name, f.topicKeyword FROM forums_sys.forums f")
 
 	if err != nil {
 		return nil, err
 	}
 
-	defer rows.Close()
+	defer frows.Close()
 
-	var res []*Forum
-	for rows.Next() {
+	var fres []*Forum
+	for frows.Next() {
 		var f Forum
-		if err := rows.Scan(&f.ID, &f.Name, &f.TopicKeyword); err != nil {
+		if err := frows.Scan(&f.ID, &f.Name, &f.TopicKeyword); err != nil {
 			return nil, err
 		}
-		res = append(res, &f)
+		fres = append(fres, &f)
 	}
 
+////////////////////////////////
 
-	for _, forum := range res{
-		id := forum.ID
-		usres, _ := s.Db.Query("SELECT nickname FROM interests i, users u WHERE i.users_id=u.id AND i.forums_id= ?", id)
-		if err != nil {
+	irows, err := s.Db.Query("SELECT u.nickname, i.forums_id FROM interests i, users u WHERE i.users_id=u.id")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer irows.Close()
+
+	var ires []*Interest
+	for irows.Next() {
+		var i Interest
+		if err := irows.Scan(&i.Nickname, &i.Forums_id); err != nil {
 			return nil, err
 		}
-		defer usres.Close()
-		var Nickname string
+		ires = append(ires, &i)
+	}
+
+	for _, forum := range fres{
 		var users []string
-    	
-    	for usres.Next() {
+		for _, interest := range ires{
+			if forum.ID == interest.Forums_id{
+				users = append(users, interest.Nickname)
+			}
+		}
+		forum.Users = users
+	}
 
-        	if err := usres.Scan(&Nickname); err != nil {
-         	return nil, err
-        }
-        
-        users = append(users, Nickname)
-        forum.Users = users
-    	}
+	if fres == nil {
+		fres = make([]*Forum, 0)
 	}
-	if res == nil {
-		res = make([]*Forum, 0)
-	}
-	return res, nil 
+
+	return fres, nil 
 }
 
 // CreateUser creates user 
