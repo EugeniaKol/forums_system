@@ -9,17 +9,24 @@ import (
 	"os/signal"
 
 	"github.com/EugeniaKol/forums_system/server/db"
+	"github.com/joho/godotenv"
 )
 
 var httpPortNumber = flag.Int("p", 8080, "HTTP port number")
 
 //NewDbConnection creates connection to db
 func NewDbConnection() (*sql.DB, error) {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	conn := &db.Connection{
-		DbName:     "forums_sys",
-		User:       "root",
-		Password:   "password",
-		Host:       "tcp(localhost:3306)",
+		DbName:     os.Getenv("DbName"),
+		User:       os.Getenv("User"),
+		Password:   os.Getenv("Password"),
+		Host:       os.Getenv("Host"),
 		DisableSSL: true,
 	}
 	return conn.Open()
@@ -52,6 +59,6 @@ func main() {
 			log.Printf("Error stopping the server: %s", err)
 		}
 	} else {
-		log.Fatalf("Cannot initialize chat server: %s", err)
+		log.Fatalf("Cannot initialize forums server: %s", err)
 	}
 }
