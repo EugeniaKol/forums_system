@@ -8,8 +8,8 @@ const Client = (baseUrl) => {
     },
     post: async (url, nickname, interests) => {
       let user = {
-        nickname: nickname.nickName,
-        interests: nickname.interests,
+        nickname,
+        interests
       };
       console.log(user);
 
