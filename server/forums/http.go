@@ -9,18 +9,18 @@ import (
 	"github.com/EugeniaKol/forums_system/server/tools"
 )
 
-// HTTPHandlerFunc create a var of its type
+// HTTPHandlerFunc creates a var of its type
 type HTTPHandlerFunc http.HandlerFunc
 
 // HTTPHandler creates a new instance of channels HTTP handler.
 func HTTPHandler(store *Store) HTTPHandlerFunc {
-	log.Printf("Hello")
 	return func(rw http.ResponseWriter, r *http.Request) {
-		log.Printf("Listening")
+		log.Printf("Listening...")
 		if r.Method == "GET" {
-			log.Printf("Received get request")
+			log.Printf("Received GET request")
 			handleListForums(store, rw)
 		} else if r.Method == "POST" {
+			log.Printf("Received POST request")
 			handleUserCreate(r, rw, store)
 		} else {
 			rw.WriteHeader(http.StatusMethodNotAllowed)
@@ -33,7 +33,7 @@ func handleUserCreate(r *http.Request, rw http.ResponseWriter, store *Store) {
 	if err := json.NewDecoder(r.Body).Decode(&u); err != nil {
 		fmt.Printf("%+v\n", u)
 		log.Printf("Error decoding channel input: %s", err)
-		tools.WriteJSONBadRequest(rw, "bad JSON payload")
+		tools.WriteJSONBadRequest(rw, "Bad JSON payload")
 		return
 	}
 	err := store.CreateUser(u.Nickname, u.Interests)

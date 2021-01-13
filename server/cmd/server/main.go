@@ -12,35 +12,37 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Define flag to set port number with console
 var httpPortNumber = flag.Int("p", 8080, "HTTP port number")
 
-//NewDbConnection creates connection to db
+// NewDbConnection creates connection to db
 func NewDbConnection() (*sql.DB, error) {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	conn := &db.Connection{
+	connection := &db.Connection{
 		DbName:     os.Getenv("DbName"),
 		User:       os.Getenv("User"),
 		Password:   os.Getenv("Password"),
 		Host:       os.Getenv("Host"),
 		DisableSSL: true,
 	}
-	return conn.Open()
+	return connection.Open()
 }
 
 func main() {
-	// Parse command line arguments. Port number may be defined with "-p" flag.
+	// Load .env
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Parse command line arguments. Port number can be defined with "-p" flag
 	flag.Parse()
 
-	// Create the server.
+	// Create server
 	if server, err := ComposeAPIServer(HTTPPortNumber(*httpPortNumber)); err == nil {
-		// Start it.
+		// Start server
 		go func() {
-			log.Println("Starting chat server...")
+			log.Println("Starting forums server...")
 
 			err := server.Start()
 			if err == http.ErrServerClosed {
@@ -50,9 +52,11 @@ func main() {
 			}
 		}()
 
-		// Wait for Ctrl-C signal.
+		// Wait for Ctrl-C signal
 		sigChannel := make(chan os.Signal, 1)
 		signal.Notify(sigChannel, os.Interrupt)
+
+		// Recieve value from sigChannel
 		<-sigChannel
 
 		if err := server.Stop(); err != nil && err != http.ErrServerClosed {

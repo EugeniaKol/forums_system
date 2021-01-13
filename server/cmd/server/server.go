@@ -3,15 +3,16 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"log"
-	forums "github.com/EugeniaKol/forums_system/server/forums"
+	"net/http"
+
+	"github.com/EugeniaKol/forums_system/server/forums"
 )
 
-//HTTPPortNumber alias for int
+// HTTPPortNumber alias for int
 type HTTPPortNumber int
 
-//ForumAPIServer configures necessary handlers and starts listening on a configured port.
+// ForumAPIServer configures necessary handlers and starts listening on a configured port
 type ForumAPIServer struct {
 	Port HTTPPortNumber
 
@@ -20,18 +21,19 @@ type ForumAPIServer struct {
 	server *http.Server
 }
 
-// Start will set all handlers and start listening.
-// If this methods succeeds, it does not return until server is shut down.
-// Returned error will never be nil.
+// Start will set all handlers and start listening
+// If this methods succeeds, it does not return until server is shut down
 func (s *ForumAPIServer) Start() error {
 	log.Printf("Listening...")
+
 	if s.ForumsHandler == nil {
-		return fmt.Errorf("channel's HTTP handler is not defined - cannot start")
+		return fmt.Errorf("Channel's HTTP handler is not defined")
 	}
 	if s.Port == 0 {
-		return fmt.Errorf("port is not defined")
+		return fmt.Errorf("Port is not defined")
 	}
 
+	// Create request router
 	handler := new(http.ServeMux)
 	handler.HandleFunc("/forums", s.ForumsHandler)
 

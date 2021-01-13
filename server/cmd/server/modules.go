@@ -3,7 +3,7 @@
 package main
 
 import (
-	forums "github.com/EugeniaKol/forums_system/server/forums"
+	"github.com/EugeniaKol/forums_system/server/forums"
 	"github.com/google/wire"
 )
 
@@ -12,8 +12,10 @@ func ComposeAPIServer(port HTTPPortNumber) (*ForumAPIServer, error) {
 	wire.Build(
 		// DB connection provider (defined in main.go).
 		NewDbConnection,
+
 		// Add providers from channels package.
 		forums.Providers,
+
 		// Provide ChatApiServer instantiating the structure and injecting channels handler and port number.
 		wire.Struct(new(ForumAPIServer), "Port", "ForumsHandler"),
 	)
